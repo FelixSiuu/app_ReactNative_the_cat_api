@@ -1,118 +1,80 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import { useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
   View,
-} from 'react-native';
+  Text,
+  Switch,
+  Button,
+  StatusBar,
+  TextInput
+} from "react-native";
+import clsx from "clsx";
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+export default function App() {
+  const [count, setCount] = useState(0);
+  const [isDark, setIsDark] = useState(false);
+  const toggleSwitch = () => setIsDark(previousState => !previousState);
+  const [value, onChangeText] = useState("");
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
+    <SafeAreaView>
       <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
+        className={clsx("min-h-screen p-[10px] transition-all", {
+          "bg-[#121212]": isDark
+        })}>
+        <StatusBar />
+        <Text
+          className={clsx("text-[32px] font-bold text-black", {
+            "text-white": isDark
+          })}>
+          React Native
+        </Text>
+
+        <View className="items-center justify-center p-[10px]">
+          <Text
+            className={clsx({
+              "text-white": isDark
+            })}>
+            {isDark ? "Dark Mode" : "Light Mode"}
+          </Text>
+          <Switch
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={isDark ? "#f5dd4b" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isDark}
+          />
+        </View>
+
         <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+          className={clsx("mb-[10px] bg-[#efeeef] p-[10px]", {
+            "bg-[#1e1e1e]": isDark
+          })}>
+          <Text
+            className={clsx("mb-[10px] text-center text-[16px]", {
+              "text-white": isDark
+            })}>
+            {count}
+          </Text>
+
+          <Button title="Click Me" onPress={() => setCount(count + 1)} />
+        </View>
+
+        <View
+          className={clsx("mb-[10px] bg-[#efeeef] px-[10px] py-[10px]", {
+            "bg-[#1e1e1e]": isDark
+          })}>
+          <TextInput
+            className={clsx("border-b-[1px] border-[#2b2b2b] text-black", {
+              "border-b-white text-white": isDark
+            })}
+            value={value}
+            onChangeText={text => onChangeText(text)}
+            placeholder="placeholder..."
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
