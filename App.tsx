@@ -6,6 +6,7 @@ import StartScreen from "./src/screens/StartScreen";
 import { RootStackParamList } from "./src/navigation/types";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack/lib/typescript/src/types";
+import LogoTitle from "./src/components/LogoTitle";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -25,12 +26,19 @@ export default function App() {
           <Stack.Screen
             name="Start"
             component={StartScreen}
-            options={{ headerShown: false }}></Stack.Screen>
+            options={{
+              headerShown: false,
+              headerTitle: (props: any) => <LogoTitle {...props} />,
+              headerStyle: {
+                backgroundColor: "#000000"
+              }
+            }}></Stack.Screen>
           <Stack.Screen
             name="Vote"
             component={VoteScreen}
             options={{
               headerShown: false,
+              headerBackTitleStyle: { fontSize: 14 },
               title: "Vote",
               ...screensTitleOptions
             }}

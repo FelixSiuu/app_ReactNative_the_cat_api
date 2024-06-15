@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { View, Image } from "react-native";
+import { View } from "react-native";
 import { Button } from "react-native-paper";
 import { StartScreenProps } from "../navigation/types";
 
