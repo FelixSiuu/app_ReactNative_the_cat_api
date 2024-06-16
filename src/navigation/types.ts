@@ -21,3 +21,18 @@ export type BreedsScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Breeds"
 >;
+
+export type BottomStackParamList = {
+  Vote: undefined;
+  Breeds: { breedId: string };
+};
+
+export type BottomVoteScreenProps = BottomTabScreenProps<
+  BottomStackParamList,
+  "Vote"
+>;
+
+export type BottomBreedsScreenProps = BottomTabScreenProps<
+  BottomStackParamList,
+  "Breeds"
+>;

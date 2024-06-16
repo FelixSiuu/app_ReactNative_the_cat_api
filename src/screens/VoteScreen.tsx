@@ -1,9 +1,12 @@
 import { Text, View } from "react-native";
 import { Button } from "react-native-paper";
-import { VoteScreenProps } from "../navigation/types";
+import { BottomVoteScreenProps } from "../navigation/types";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function VoteScreen({ navigation, route }: VoteScreenProps) {
+export default function VoteScreen({
+  navigation,
+  route
+}: BottomVoteScreenProps) {
   const insets = useSafeAreaInsets();
 
   return (

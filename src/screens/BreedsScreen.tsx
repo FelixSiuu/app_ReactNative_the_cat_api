@@ -1,9 +1,12 @@
 import { View, Text } from "react-native";
 import { Button } from "react-native-paper";
-import { BreedsScreenProps } from "../navigation/types";
+import { BottomBreedsScreenProps } from "../navigation/types";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function BreedsScreen({ navigation, route }: BreedsScreenProps) {
+export default function BreedsScreen({
+  navigation,
+  route
+}: BottomBreedsScreenProps) {
   const insets = useSafeAreaInsets();
 
   return (
