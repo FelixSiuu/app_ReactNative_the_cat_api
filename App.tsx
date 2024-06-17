@@ -1,28 +1,15 @@
+import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import VoteScreen from "./src/screens/VoteScreen";
-import BreedsScreen from "./src/screens/BreedsScreen";
-import StartScreen from "./src/screens/StartScreen";
-import { RootStackParamList } from "./src/navigation/types";
-import type { BottomStackParamList } from "./src/navigation/types";
+import VoteStack from "./src/stack/VoteStack";
+import BreedsStack from "./src/stack/BreedsStack";
+import type { BottomStackParamList } from "./src/types/navigation";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import type { NativeStackNavigationOptions } from "@react-navigation/native-stack/lib/typescript/src/types";
-import LogoTitle from "./src/components/LogoTitle";
 import { Icon } from "react-native-paper";
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<BottomStackParamList>();
 
 export default function App() {
-  const screensTitleOptions: NativeStackNavigationOptions = {
-    headerStyle: {
-      backgroundColor: "#1976d2"
-    },
-    headerTintColor: "#fff",
-    headerTitleAlign: "center"
-  };
-
   return (
     <SafeAreaProvider>
       <NavigationContainer>
@@ -31,9 +18,9 @@ export default function App() {
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
 
-              if (route.name === "Vote") {
+              if (route.name === "VoteStack") {
                 iconName = "thumbs-up-down";
-              } else if (route.name === "Breeds") {
+              } else if (route.name === "BreedsStack") {
                 iconName = "format-list-bulleted";
               } else {
                 iconName = "";
@@ -51,14 +38,14 @@ export default function App() {
             tabBarInactiveTintColor: "gray"
           })}>
           <Tab.Screen
-            name="Vote"
-            component={VoteScreen}
-            options={{ headerShown: false }}
+            name="VoteStack"
+            component={VoteStack}
+            options={{ headerShown: false, title: "VOTE" }}
           />
           <Tab.Screen
-            name="Breeds"
-            component={BreedsScreen}
-            options={{ headerShown: false }}
+            name="BreedsStack"
+            component={BreedsStack}
+            options={{ headerShown: false, title: "BREEDS" }}
           />
         </Tab.Navigator>
       </NavigationContainer>

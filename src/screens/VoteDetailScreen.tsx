@@ -1,12 +1,11 @@
 import { Text, View } from "react-native";
-import { Button } from "react-native-paper";
-import { VoteStackVoteScreenProps } from "../types/navigation";
+import { VoteStackDetailScreenProps } from "../types/navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function VoteScreen({
+export default function VoteDetailScreen({
   navigation,
   route
-}: VoteStackVoteScreenProps) {
+}: VoteStackDetailScreenProps) {
   const insets = useSafeAreaInsets();
 
   return (
@@ -18,10 +17,7 @@ export default function VoteScreen({
         paddingLeft: insets.left
       }}
       className="flex-1 items-center justify-center">
-      <Text>Hello, Vote Screen</Text>
-      <Button onPress={() => navigation.navigate("VoteDetail")}>
-        Go To Vote Detail
-      </Button>
+      <Text>Detail Screen for Vote</Text>
     </View>
   );
 }
