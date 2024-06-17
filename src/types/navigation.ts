@@ -1,5 +1,6 @@
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import type { DrawerScreenProps } from "@react-navigation/drawer";
 
 export type BottomStackParamList = {
   VoteStack: undefined;
@@ -44,4 +45,13 @@ export type BreedsStackBreedsScreenProps = NativeStackScreenProps<
 export type BreedsStackDetailScreenProps = NativeStackScreenProps<
   BreedsStackParamsList,
   "BreedsDetail"
+>;
+
+export type DrawerParamsList = {
+  Settings: undefined;
+};
+
+export type SettingsDrawerScreenProps = DrawerScreenProps<
+  DrawerParamsList,
+  "Settings"
 >;
