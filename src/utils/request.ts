@@ -2,9 +2,11 @@ import axios from "axios";
 
 axios.defaults.headers.common["x-api-key"] =
   "live_7bdLCN9mAkvssXwjjqiM4654LBHOLhiwuEDyaqZNMUrsqyS88OA6jC0MlNFwGGRE";
+// axios.defaults.headers.common["x-api-key"] =
+//   "e0c1cfae-90bc-4889-ba62-a4e0d629ff72";
 
 // Ask for 1 Image, at full resolution
-export const getImgRequest = () => {
+export const request_getImg = () => {
   return axios.get("https://api.thecatapi.com/v1/images/search", {
     params: {
       limit: 1,
@@ -14,7 +16,7 @@ export const getImgRequest = () => {
 };
 
 // voting img
-export const voteRequest = (payload: {
+export const request_vote = (payload: {
   image_id: string;
   sub_id: string;
   value: number;
@@ -23,19 +25,19 @@ export const voteRequest = (payload: {
 };
 
 // save an favourite image
-export const favRequest = (payload: { image_id: string; sub_id: string }) => {
+export const request_fav = (payload: { image_id: string; sub_id: string }) => {
   return axios.post("https://api.thecatapi.com/v1/favourites", payload);
 };
 
 // delete an favourte image
-export const unFavRequest = ({ favourite_id }: { favourite_id: string }) => {
+export const request_unFav = ({ favourite_id }: { favourite_id: string }) => {
   return axios.delete(
     `https://api.thecatapi.com/v1/favourites/${favourite_id}`
   );
 };
 
 // get fav list
-export const getFavListRequest = (params: {
+export const request_getFavList = (params: {
   sub_id: string;
   limit: number;
 }) => {
@@ -47,12 +49,12 @@ export const getFavListRequest = (params: {
 };
 
 // get breeds list
-export const getBreedsListRequest = () => {
+export const request_getBreedsList = () => {
   return axios.get(`https://api.thecatapi.com/v1/breeds`);
 };
 
 // get breed info
-export const getBreedInfoRequest = (params: { id: string | number }) => {
+export const request_getBreedInfo = (params: { id: string | number }) => {
   return axios.get(`https://api.thecatapi.com/v1/images/search`, {
     params: {
       ...params
@@ -61,12 +63,12 @@ export const getBreedInfoRequest = (params: { id: string | number }) => {
 };
 
 // get categories list
-export const getCategoriesListRequest = () => {
+export const request_getCategoriesList = () => {
   return axios.get("https://api.thecatapi.com/v1/categories");
 };
 
 // get filter images
-export const getFilterImagesRequest = (params: {
+export const request_getFilterImages = (params: {
   breed_id: string;
   category_ids: string;
   mime_types: string;

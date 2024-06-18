@@ -2786,6 +2786,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:5.45.0":
+  version: 5.45.0
+  resolution: "@tanstack/query-core@npm:5.45.0"
+  checksum: a3c13d90cfa12955d22fa754ebfddbea70081fc0128111083269bdd78ed0d25678f050007b753164a929a00fdef9ee5ebba945deb8e360120ae3cbae06e655a5
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.45.1":
+  version: 5.45.1
+  resolution: "@tanstack/react-query@npm:5.45.1"
+  dependencies:
+    "@tanstack/query-core": 5.45.0
+  peerDependencies:
+    react: ^18.0.0
+  checksum: b5d8178ee1f4b1dd197a783e7f0eb4a7c0e9ef8fde18c73f71aee636cd57e742a1693a2cd2279fbfb3d6b04aa535212fba8b6c535f6ffc92d020938cc117796e
+  languageName: node
+  linkType: hard
+
 "@types/babel__core@npm:^7.1.14":
   version: 7.20.5
   resolution: "@types/babel__core@npm:7.20.5"
@@ -6821,6 +6839,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jotai@npm:^2.8.3":
+  version: 2.8.3
+  resolution: "jotai@npm:2.8.3"
+  peerDependencies:
+    "@types/react": ">=17.0.0"
+    react: ">=17.0.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    react:
+      optional: true
+  checksum: b4e149804d190a0262348498b5552cd16ee5f7ffa65804914e5786e1ba204e7bfcf0d77e8260461057ea0f926fc3e49bc997a6d8659e441c9cffa8d5639317a5
+  languageName: node
+  linkType: hard
+
 "js-tokens@npm:^3.0.0 || ^4.0.0, js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
@@ -7661,9 +7694,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"myProject@workspace:.":
+"my-project@workspace:.":
   version: 0.0.0-use.local
-  resolution: "myProject@workspace:."
+  resolution: "my-project@workspace:."
   dependencies:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
@@ -7676,6 +7709,7 @@ __metadata:
     "@react-navigation/drawer": ^6.6.15
     "@react-navigation/native": ^6.1.17
     "@react-navigation/native-stack": ^6.9.26
+    "@tanstack/react-query": ^5.45.1
     "@types/react": ^18.2.6
     "@types/react-test-renderer": ^18.0.0
     axios: ^1.7.2
@@ -7683,6 +7717,7 @@ __metadata:
     clsx: ^2.1.1
     eslint: ^8.19.0
     jest: ^29.6.3
+    jotai: ^2.8.3
     nativewind: ^2.0.11
     prettier: ^3.3.2
     prettier-plugin-tailwindcss: ^0.6.3
