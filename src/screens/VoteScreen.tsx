@@ -1,38 +1,36 @@
-import { useQuery } from "@tanstack/react-query";
 import { Text, View, Image, ScrollView } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { request_getImg } from "../utils/request";
 import { Dimensions } from "react-native";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ActivityIndicator, Button } from "react-native-paper";
 
 export default function VoteScreen() {
-  const {
-    isPending,
-    error,
-    data: img
-  } = useQuery({
-    queryKey: ["getImg"],
-    queryFn: () => request_getImg()
-  });
-  if (isPending) return <ActivityIndicator />;
-  if (error) return <Text>An error has occurred: + {error.message}</Text>;
-
-  const insets = useSafeAreaInsets();
+  const [url, setUrl] = useState("");
+  const [id, setId] = useState("");
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
-  const { id, url, width, height } = img.data[0];
+
+  const getImgRequest = useCallback(async () => {
+    try {
+      const res = await request_getImg();
+      const { url, id } = res.data[0];
+      setUrl(url);
+      setId(id);
+    } catch (error) {}
+  }, []);
+
+  useEffect(() => {
+    getImgRequest();
+  }, [getImgRequest]);
 
   return (
-    <ScrollView
-      style={{
-        paddingTop: insets.top + 20,
-        paddingRight: insets.right,
-        paddingBottom: insets.bottom,
-        paddingLeft: insets.left
-      }}>
+    <ScrollView className="pt-[20]">
       <View className="items-center justify-center gap-[20]">
-        <View className="flex-row justify-center gap-[20]">
+        <View
+          style={{
+            flexDirection: "row",
+            gap: 20
+          }}>
           <Button
             buttonColor="#2e7d32"
             textColor="#ffffff"
@@ -41,6 +39,7 @@ export default function VoteScreen() {
             onPress={() => {}}>
             LOVE IT
           </Button>
+
           <Button
             buttonColor="#d32f2f"
             textColor="#ffffff"
@@ -51,10 +50,12 @@ export default function VoteScreen() {
           </Button>
         </View>
 
-        <Image
-          source={{ uri: url }}
-          style={{ width: windowWidth * 0.9, height: windowHeight * 0.5 }}
-        />
+        {!url ? null : (
+          <Image
+            source={{ uri: url }}
+            style={{ width: windowWidth * 0.9, height: windowHeight * 0.5 }}
+          />
+        )}
 
         <View>
           <Text>Fav</Text>

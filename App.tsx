@@ -13,11 +13,9 @@ export default function App() {
     <PaperProvider>
       <SafeAreaProvider>
         <GestureHandlerRootView>
-          <QueryClientProvider client={queryClient}>
-            <NavigationContainer>
-              <RootStack />
-            </NavigationContainer>
-          </QueryClientProvider>
+          <NavigationContainer>
+            <RootStack />
+          </NavigationContainer>
         </GestureHandlerRootView>
       </SafeAreaProvider>
     </PaperProvider>
