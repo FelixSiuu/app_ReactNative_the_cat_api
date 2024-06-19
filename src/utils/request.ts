@@ -30,7 +30,7 @@ export const request_fav = (payload: { image_id: string; sub_id: string }) => {
 };
 
 // delete an favourte image
-export const request_unFav = ({ favourite_id }: { favourite_id: string }) => {
+export const request_unFav = ({ favourite_id }: { favourite_id: number }) => {
   return axios.delete(
     `https://api.thecatapi.com/v1/favourites/${favourite_id}`
   );

@@ -1,26 +1,23 @@
-import { View, Text, Platform, AppState } from "react-native";
-import type { AppStateStatus } from "react-native";
-import { focusManager } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { View, Text, ScrollView } from "react-native";
+import { BreedsScreenProps } from "../types/navigation";
+import { useEffect, useState } from "react";
+import { Button } from "react-native-paper";
 
-export default function BreedsScreen() {
-  function onAppStateChange(status: AppStateStatus) {
-    if (Platform.OS !== "web") {
-      focusManager.setFocused(status === "active");
-    }
-  }
-
-  useEffect(() => {
-    const subscription = AppState.addEventListener("change", onAppStateChange);
-
-    return () => subscription.remove();
-  }, []);
-
+export default function BreedsScreen({ navigation, route }: BreedsScreenProps) {
   return (
-    <View className="flex-1 items-center justify-center gap-[10]">
-      <Text>Hello, Breeds Screen</Text>
-      <Text>Platform: {Platform.OS}</Text>
-      <Text>is Focused: {String(focusManager.isFocused())}</Text>
-    </View>
+    <ScrollView className="pt-[20]">
+      <View className="items-center justify-center gap-[30]">
+        <Text>Hello, Breeds Screen</Text>
+
+        <Button
+          onPress={() =>
+            navigation.navigate("BreedsList", {
+              breed_id: route.params.breed_id
+            })
+          }>
+          choose
+        </Button>
+      </View>
+    </ScrollView>
   );
 }
