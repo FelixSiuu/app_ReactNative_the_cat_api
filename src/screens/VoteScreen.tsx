@@ -1,4 +1,4 @@
-import { View, Image, ScrollView, Alert } from "react-native";
+import { View, Image, ScrollView } from "react-native";
 import {
   request_getImg,
   request_vote,

@@ -54,7 +54,7 @@ export const request_getBreedsList = () => {
 };
 
 // get breed info
-export const request_getBreedInfo = (params: { id: string | number }) => {
+export const request_getBreedInfo = (params: { breed_id: string | number }) => {
   return axios.get(`https://api.thecatapi.com/v1/images/search`, {
     params: {
       ...params
