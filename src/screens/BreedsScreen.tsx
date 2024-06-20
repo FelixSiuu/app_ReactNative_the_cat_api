@@ -4,8 +4,10 @@ import { useCallback, useEffect, useState } from "react";
 import { request_getBreedInfo } from "../utils/request";
 import { ActivityIndicator, Button, Card, Text } from "react-native-paper";
 import RatingList from "../components/RatingList";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function BreedsScreen({ navigation, route }: BreedsScreenProps) {
+  const insets = useSafeAreaInsets();
   const [loading, setLoading] = useState(true);
   const [imgUrl, setImgUrl] = useState("");
   const [breedInfo, setBreedInfo] = useState<{ [key: string]: any }>({});
@@ -32,8 +34,15 @@ export default function BreedsScreen({ navigation, route }: BreedsScreenProps) {
   }, [getBreedInfoRequest]);
 
   return (
-    <ScrollView className="pt-[20]">
-      <View className="items-center justify-center gap-[30] pb-[50] pt-[20]">
+    <ScrollView>
+      <View
+        style={{
+          paddingTop: insets.top,
+          paddingRight: insets.right,
+          paddingBottom: insets.bottom,
+          paddingLeft: insets.left
+        }}
+        className="items-center justify-center gap-[30]">
         <Button
           mode="elevated"
           icon={"arrow-right-drop-circle-outline"}
@@ -47,11 +56,11 @@ export default function BreedsScreen({ navigation, route }: BreedsScreenProps) {
         </Button>
         <Card className="w-[85%]">
           {loading ? (
-            <View className="h-[400] items-center justify-center">
+            <View className="h-[300] items-center justify-center">
               <ActivityIndicator />
             </View>
           ) : (
-            <Card.Cover source={{ uri: imgUrl }} className="h-[400]" />
+            <Card.Cover source={{ uri: imgUrl }} className="h-[300]" />
           )}
 
           <Card.Content className="gap-[10] py-[30]">

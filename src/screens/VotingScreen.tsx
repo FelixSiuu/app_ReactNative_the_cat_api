@@ -8,10 +8,12 @@ import {
 import { Dimensions } from "react-native";
 import { useState, useEffect, useCallback } from "react";
 import { ActivityIndicator, Button, Snackbar, Card } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function VotingScreen() {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
+  const insets = useSafeAreaInsets();
   const [imgUrl, setImgUrl] = useState("");
   const [imgId, setImgid] = useState("");
   const [loading, setLoading] = useState(true);
@@ -86,7 +88,14 @@ export default function VotingScreen() {
   return (
     <ScrollView>
       <View
-        style={{ minHeight: windowHeight * 0.8, minWidth: windowWidth }}
+        style={{
+          minHeight: windowHeight * 0.8,
+          minWidth: windowWidth,
+          paddingTop: insets.top,
+          paddingRight: insets.right,
+          paddingBottom: insets.bottom,
+          paddingLeft: insets.left
+        }}
         className="flex-1 items-center justify-center gap-[30]">
         <View
           style={{

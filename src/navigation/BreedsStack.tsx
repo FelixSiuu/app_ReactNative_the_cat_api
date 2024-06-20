@@ -18,8 +18,6 @@ export default function BreedsStack() {
         initialParams={{ breed_id: "abys" }}
         component={BreedsList}
         options={({ route }) => ({
-          title: `selected: ${route.params.breed_id}`,
-          headerTitleAlign: "center",
           headerStyle: {
             backgroundColor: "#1976d2"
           },

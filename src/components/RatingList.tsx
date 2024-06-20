@@ -1,4 +1,5 @@
 import { View, Text } from "react-native";
+import { Icon } from "react-native-paper";
 
 export default function RatingList(props: {
   breed_info: { [key: string]: any };
@@ -18,13 +19,32 @@ export default function RatingList(props: {
     { key: "Vocalisation", value: props.breed_info.vocalisation }
   ];
 
+  const scoreList = [
+    "star-outline",
+    "star-outline",
+    "star-outline",
+    "star-outline",
+    "star-outline"
+  ];
+
   return (
     <View className="gap-[10]">
       {dataList.map((item, index) => {
         return (
           <View key={index} className="flex-row justify-between">
             <Text>{item.key}</Text>
-            <Text>{item.value}</Text>
+            <Text>
+              {scoreList.map((starItem, index) => {
+                return (
+                  <Icon
+                    source={index + 1 < item.value ? "star" : starItem}
+                    key={index}
+                    size={16}
+                    color={"#efb23d"}
+                  />
+                );
+              })}
+            </Text>
           </View>
         );
       })}
