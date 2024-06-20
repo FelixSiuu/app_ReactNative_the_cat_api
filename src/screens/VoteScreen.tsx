@@ -7,30 +7,32 @@ import {
 } from "../utils/request";
 import { Dimensions } from "react-native";
 import { useState, useEffect, useCallback } from "react";
-import { ActivityIndicator, Button } from "react-native-paper";
-import Toast from "../components/Toast";
+import { ActivityIndicator, Button, Snackbar, Card } from "react-native-paper";
 
 export default function VoteScreen() {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
-  const [url, setUrl] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
   const [imgId, setImgid] = useState("");
   const [loading, setLoading] = useState(true);
   const [isFav, setIsFav] = useState(false);
   const [favId, setFavid] = useState(0);
-  const [showToast, setShowToast] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const onDismissSnackBar = () => setVisible(false);
 
   const getImgRequest = useCallback(async () => {
     setLoading(true);
     setIsFav(false);
     setFavid(0);
+    setVisible(false);
 
     try {
       const { data } = await request_getImg();
       console.log("get img: ", data);
-      setUrl(data[0].url);
+      setImgUrl(data[0].url);
       setImgid(data[0].id);
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -48,6 +50,8 @@ export default function VoteScreen() {
   };
 
   const favImgRequest = async () => {
+    setVisible(true);
+
     try {
       const { data } = await request_fav({
         image_id: imgId,
@@ -62,6 +66,8 @@ export default function VoteScreen() {
   };
 
   const unFavImgRequest = async () => {
+    setVisible(false);
+
     try {
       const { data } = await request_unFav({
         favourite_id: favId
@@ -78,8 +84,10 @@ export default function VoteScreen() {
   }, [getImgRequest]);
 
   return (
-    <ScrollView className="relative pt-[20]">
-      <View className="items-center justify-between gap-[30]">
+    <ScrollView>
+      <View
+        style={{ minHeight: windowHeight * 0.8, minWidth: windowWidth }}
+        className="flex-1 items-center justify-center gap-[30]">
         <View
           style={{
             flexDirection: "row",
@@ -112,49 +120,49 @@ export default function VoteScreen() {
           </Button>
         </View>
 
-        <View className="items-center justify-center">
+        <Card className="w-[85%]">
           {loading ? (
-            <ActivityIndicator
-              style={{
-                paddingTop: windowHeight * 0.25,
-                paddingBottom: windowHeight * 0.25
-              }}
-            />
+            <View className="h-[400] items-center justify-center">
+              <ActivityIndicator />
+            </View>
           ) : (
-            <Image
-              source={{ uri: url }}
-              style={{ width: windowWidth * 0.9, height: windowHeight * 0.5 }}
-            />
+            <Card.Cover source={{ uri: imgUrl }} className="h-[400]" />
           )}
-        </View>
 
-        <View>
-          {isFav ? (
-            <Button
-              icon={"heart"}
-              textColor="#ce2f2f"
-              onPress={() => {
-                unFavImgRequest();
-              }}>
-              FAV IT
-            </Button>
-          ) : (
-            <Button
-              icon={"heart-outline"}
-              textColor="#222222"
-              onPress={() => {
-                favImgRequest();
-                setShowToast(true);
-                setTimeout(() => {
-                  setShowToast(false);
-                }, 2000);
-              }}>
-              FAV IT
-            </Button>
-          )}
-        </View>
+          <View className="py-[20]">
+            {isFav ? (
+              <Button
+                icon={"heart"}
+                textColor="#ce2f2f"
+                onPress={() => {
+                  unFavImgRequest();
+                }}>
+                FAV IT
+              </Button>
+            ) : (
+              <Button
+                icon={"heart-outline"}
+                textColor="#222222"
+                onPress={() => {
+                  favImgRequest();
+                }}>
+                FAV IT
+              </Button>
+            )}
+          </View>
+        </Card>
 
-        <Toast show={showToast} />
+        <Snackbar
+          visible={visible}
+          onDismiss={onDismissSnackBar}
+          action={{
+            label: "Undo",
+            onPress: () => {
+              unFavImgRequest();
+            }
+          }}>
+          You love this cat !
+        </Snackbar>
       </View>
     </ScrollView>
   );

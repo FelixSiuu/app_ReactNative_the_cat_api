@@ -3,25 +3,24 @@ import { BreedsScreenProps } from "../types/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { request_getBreedInfo } from "../utils/request";
 import { ActivityIndicator, Button, Card, Text } from "react-native-paper";
+import RatingList from "../components/RatingList";
 
 export default function BreedsScreen({ navigation, route }: BreedsScreenProps) {
   const [loading, setLoading] = useState(true);
-  const [breedInfo, setBreedInfo] = useState({ url: "", name: "" });
+  const [imgUrl, setImgUrl] = useState("");
+  const [breedInfo, setBreedInfo] = useState<{ [key: string]: any }>({});
 
   const getBreedInfoRequest = useCallback(async () => {
     setLoading(true);
+    setImgUrl("");
 
     try {
       const { data } = await request_getBreedInfo({
         breed_id: route.params.breed_id
       });
-      const { url, name } = data[0];
-      console.log(data[0]);
-
-      setBreedInfo({
-        url: url,
-        name: name
-      });
+      // console.log("get breed info:", data[0]);
+      setImgUrl(data[0].url);
+      setBreedInfo(data[0].breeds[0]);
     } catch (error) {
     } finally {
       setLoading(false);
@@ -34,29 +33,54 @@ export default function BreedsScreen({ navigation, route }: BreedsScreenProps) {
 
   return (
     <ScrollView className="pt-[20]">
-      <View className="items-center justify-center gap-[30]">
-        <Card className="w-[85%]">
-          <Card.Title title={breedInfo.name} subtitle="Card Subtitle" />
-          {loading ? (
-            <ActivityIndicator />
-          ) : (
-            <Card.Cover source={{ uri: breedInfo.url }} className={"px-[10]"} />
-          )}
-
-          <Card.Content>
-            <Text variant="titleLarge">Card title</Text>
-            <Text variant="bodyMedium">Card content</Text>
-          </Card.Content>
-        </Card>
-
+      <View className="items-center justify-center gap-[30] pb-[50] pt-[20]">
         <Button
+          mode="elevated"
+          icon={"arrow-right-drop-circle-outline"}
+          contentStyle={{ flexDirection: "row-reverse" }}
           onPress={() =>
             navigation.navigate("BreedsList", {
               breed_id: route.params.breed_id
             })
           }>
-          choose
+          selected: {breedInfo.name}
         </Button>
+        <Card className="w-[85%]">
+          {loading ? (
+            <View className="h-[400] items-center justify-center">
+              <ActivityIndicator />
+            </View>
+          ) : (
+            <Card.Cover source={{ uri: imgUrl }} className="h-[400]" />
+          )}
+
+          <Card.Content className="gap-[10] py-[30]">
+            <Text variant="headlineLarge" className="text-center font-bold">
+              {breedInfo.name}
+            </Text>
+
+            <Text variant="titleMedium" className="text-center">
+              Origin: {breedInfo.origin}
+            </Text>
+
+            <Text variant="bodyMedium">{breedInfo.description}</Text>
+            <Text variant="bodyMedium" className="text-center">
+              {breedInfo.temperament}
+            </Text>
+            <Text variant="bodyMedium" className="text-center">
+              {breedInfo.weight?.metric} kg
+            </Text>
+            <Text variant="bodyMedium" className="text-center">
+              {breedInfo.life_span} average life span
+            </Text>
+
+            <View className="h-[8] w-full bg-[#f2f2f2]"></View>
+
+            <View>
+              <RatingList breed_info={breedInfo} />
+            </View>
+          </Card.Content>
+        </Card>
       </View>
     </ScrollView>
   );

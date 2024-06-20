@@ -9,6 +9,14 @@ export default function BreedsList({
   return (
     <ScrollView className="pt-[20]">
       <Text>selected: {route.params.breed_id}</Text>
+      <Button
+        onPress={() =>
+          navigation.navigate("Breeds", {
+            breed_id: "aege"
+          })
+        }>
+        aege
+      </Button>
     </ScrollView>
   );
 }
