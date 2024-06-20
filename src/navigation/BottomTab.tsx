@@ -1,44 +1,44 @@
 import { BottomNavigation, Button } from "react-native-paper";
 import { useState } from "react";
-import VoteScreen from "../screens/VoteScreen";
+import VotingScreen from "../screens/VotingScreen";
 import BreedsStack from "./BreedsStack";
 import ImagesScreen from "../screens/ImagesScreen";
-import FavScreen from "../screens/FavScreen";
+import FavsScreen from "../screens/FavsScreen";
 
 export default function BottomTab() {
   const [index, setIndex] = useState(1);
   const [routes] = useState([
     {
-      key: "VoteScreen",
-      title: "VOTE",
+      key: "VotingScreen",
+      title: "Voting",
       focusedIcon: "thumbs-up-down",
       unfocusedIcon: "thumbs-up-down-outline"
     },
     {
       key: "BreedsStack",
-      title: "BREEDS",
+      title: "Breeds",
       focusedIcon: "format-list-bulleted-square",
       unfocusedIcon: "format-list-checkbox"
     },
     {
       key: "ImagesScreen",
-      title: "IMAGES",
+      title: "Images",
       focusedIcon: "image-multiple",
       unfocusedIcon: "image-multiple-outline"
     },
     {
-      key: "FavScreen",
-      title: "FAV",
+      key: "FavsScreen",
+      title: "Favs",
       focusedIcon: "heart-multiple",
       unfocusedIcon: "heart-multiple-outline"
     }
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
-    VoteScreen: VoteScreen,
+    VotingScreen: VotingScreen,
     BreedsStack: BreedsStack,
     ImagesScreen: ImagesScreen,
-    FavScreen: FavScreen
+    FavsScreen: FavsScreen
   });
 
   return (

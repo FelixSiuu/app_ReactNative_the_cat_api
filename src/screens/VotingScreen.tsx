@@ -9,7 +9,7 @@ import { Dimensions } from "react-native";
 import { useState, useEffect, useCallback } from "react";
 import { ActivityIndicator, Button, Snackbar, Card } from "react-native-paper";
 
-export default function VoteScreen() {
+export default function VotingScreen() {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [imgUrl, setImgUrl] = useState("");
