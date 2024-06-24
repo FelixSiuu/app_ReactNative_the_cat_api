@@ -37,9 +37,9 @@ export default function BreedsScreen({ navigation, route }: BreedsScreenProps) {
     <ScrollView>
       <View
         style={{
-          paddingTop: insets.top,
+          paddingTop: insets.top + 20,
           paddingRight: insets.right,
-          paddingBottom: insets.bottom,
+          paddingBottom: insets.bottom + 20,
           paddingLeft: insets.left
         }}
         className="items-center justify-center gap-[30]">

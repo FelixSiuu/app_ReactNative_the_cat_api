@@ -91,9 +91,9 @@ export default function VotingScreen() {
         style={{
           minHeight: windowHeight * 0.8,
           minWidth: windowWidth,
-          paddingTop: insets.top,
+          paddingTop: insets.top + 20,
           paddingRight: insets.right,
-          paddingBottom: insets.bottom,
+          paddingBottom: insets.bottom + 20,
           paddingLeft: insets.left
         }}
         className="flex-1 items-center justify-center gap-[30]">

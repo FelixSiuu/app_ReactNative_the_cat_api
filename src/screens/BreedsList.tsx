@@ -1,6 +1,5 @@
 import { View, Text, ScrollView } from "react-native";
 import { BreedsListScreenProps } from "../types/navigation";
-import { Button } from "react-native-paper";
 import { request_getBreedsList } from "../utils/request";
 import { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
