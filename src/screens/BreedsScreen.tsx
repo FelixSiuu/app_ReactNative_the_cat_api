@@ -54,7 +54,7 @@ export default function BreedsScreen({ navigation, route }: BreedsScreenProps) {
           }>
           selected: {breedInfo.name}
         </Button>
-        <Card className="w-[85%]">
+        <Card className="w-[90%]">
           {loading ? (
             <View className="h-[300] items-center justify-center">
               <ActivityIndicator />

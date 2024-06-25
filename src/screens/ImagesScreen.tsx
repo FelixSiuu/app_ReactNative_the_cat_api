@@ -1,26 +1,57 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, ScrollView, Image, Text } from "react-native";
 import {
   request_getBreedsList,
-  request_getCategoriesList
+  request_getCategoriesList,
+  request_getFilterImages
 } from "../utils/request";
 import { useCallback, useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import OptionMenu from "../components/OptionMenu";
+import { ActivityIndicator, Button, Card } from "react-native-paper";
+
+type ListType = Array<{ name: string; id: string }>;
 
 export default function ImagesScreen() {
   const insets = useSafeAreaInsets();
-  const [breedList, setBreedList] = useState<
-    Array<{ name: string; id: string }>
-  >([]);
-  const [cateList, setCateList] = useState<Array<{ name: string; id: string }>>(
+  const [breedList, setBreedList] = useState<ListType>([
+    { name: "None", id: "" }
+  ]);
+  const [cateList, setCateList] = useState<ListType>([
+    { name: "None", id: "" }
+  ]);
+  const [params, setParams] = useState({
+    breed_id: "",
+    category_ids: "",
+    mime_types: "jpg",
+    limit: "6"
+  });
+  const [loading, setLoading] = useState(true);
+  const [filterList, setFilterList] = useState<Array<{ [key: string]: any }>>(
     []
   );
+
+  const getFilterImagesRequest = useCallback(async () => {
+    setLoading(true);
+
+    try {
+      const { data } = await request_getFilterImages(params);
+      setFilterList(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [params]);
+
+  useEffect(() => {
+    getFilterImagesRequest();
+  }, [getFilterImagesRequest]);
 
   useEffect(() => {
     const getBreedsListRequest = async () => {
       try {
         const { data } = await request_getBreedsList();
-        let list: Array<{ name: string; id: string }> = [];
+        let list = breedList;
         data.forEach((item: { [key: string]: any }) => {
           list.push({
             name: item.name,
@@ -34,14 +65,10 @@ export default function ImagesScreen() {
       }
     };
 
-    getBreedsListRequest();
-  }, []);
-
-  useEffect(() => {
     const getCategoriesRequest = async () => {
       try {
         const { data } = await request_getCategoriesList();
-        let list: Array<{ name: string; id: string }> = [];
+        let list = cateList;
         data.forEach((item: { [key: string]: any }) => {
           list.push({
             name: item.name,
@@ -55,6 +82,7 @@ export default function ImagesScreen() {
       }
     };
 
+    getBreedsListRequest();
     getCategoriesRequest();
   }, []);
 
@@ -66,12 +94,91 @@ export default function ImagesScreen() {
           paddingRight: insets.right,
           paddingBottom: insets.bottom + 20,
           paddingLeft: insets.left
-        }}>
-        <Text>ImagesScreen</Text>
-      </View>
+        }}
+        className="mx-auto w-[95%]">
+        <View className="mb-[20] flex-row">
+          <OptionMenu
+            list={breedList}
+            type="Breeds"
+            onSelected={val => {
+              setParams({
+                ...params,
+                breed_id: val
+              });
+            }}
+          />
+          <OptionMenu
+            list={cateList}
+            type="Categories"
+            onSelected={val => {
+              setParams({
+                ...params,
+                category_ids: val
+              });
+            }}
+          />
+        </View>
 
-      <OptionMenu list={breedList} />
-      <OptionMenu list={cateList} />
+        <View className="mb-[30] flex-row">
+          <OptionMenu
+            list={[
+              { name: "static", id: "jpg" },
+              { name: "animated", id: "gif" }
+            ]}
+            type="Type"
+            onSelected={val => {
+              setParams({
+                ...params,
+                mime_types: val
+              });
+            }}
+          />
+          <OptionMenu
+            list={[
+              { name: "6", id: "10" },
+              { name: "10", id: "10" },
+              { name: "18", id: "18" },
+              { name: "24", id: "24" }
+            ]}
+            type="Limit"
+            onSelected={val => {
+              setParams({
+                ...params,
+                limit: val
+              });
+            }}
+          />
+        </View>
+
+        <View className="gap-[5]">
+          {loading ? (
+            <View className="h-[300] items-center justify-center">
+              <ActivityIndicator />
+            </View>
+          ) : filterList.length === 0 ? (
+            <View className="h-[300] items-center justify-center">
+              <Text>No Data</Text>
+            </View>
+          ) : (
+            filterList.map(item => {
+              return (
+                <Image
+                  key={item.id}
+                  source={{ uri: item.url }}
+                  className="h-[300] w-full"
+                />
+              );
+            })
+          )}
+        </View>
+
+        <Button
+          onPress={() => getFilterImagesRequest()}
+          className="mt-[30]"
+          mode="contained">
+          Change
+        </Button>
+      </View>
     </ScrollView>
   );
 }

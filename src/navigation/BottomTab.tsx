@@ -6,7 +6,7 @@ import ImagesScreen from "../screens/ImagesScreen";
 import FavsScreen from "../screens/FavsScreen";
 
 export default function BottomTab() {
-  const [index, setIndex] = useState(2);
+  const [index, setIndex] = useState(3);
   const [routes] = useState([
     {
       key: "VotingScreen",

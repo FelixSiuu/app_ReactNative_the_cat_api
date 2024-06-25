@@ -20,6 +20,7 @@ export default function VotingScreen() {
   const [isFav, setIsFav] = useState(false);
   const [favId, setFavid] = useState(0);
   const [visible, setVisible] = useState(false);
+
   const onDismissSnackBar = () => setVisible(false);
 
   const getImgRequest = useCallback(async () => {
@@ -90,7 +91,6 @@ export default function VotingScreen() {
       <View
         style={{
           minHeight: windowHeight * 0.8,
-          minWidth: windowWidth,
           paddingTop: insets.top + 20,
           paddingRight: insets.right,
           paddingBottom: insets.bottom + 20,
@@ -129,7 +129,7 @@ export default function VotingScreen() {
           </Button>
         </View>
 
-        <Card className="w-[85%]">
+        <Card className="w-[90%]">
           {loading ? (
             <View className="h-[400] items-center justify-center">
               <ActivityIndicator />
@@ -160,19 +160,19 @@ export default function VotingScreen() {
             )}
           </View>
         </Card>
-
-        <Snackbar
-          visible={visible}
-          onDismiss={onDismissSnackBar}
-          action={{
-            label: "Undo",
-            onPress: () => {
-              unFavImgRequest();
-            }
-          }}>
-          You love this cat !
-        </Snackbar>
       </View>
+
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "Undo",
+          onPress: () => {
+            unFavImgRequest();
+          }
+        }}>
+        You love this cat !
+      </Snackbar>
     </ScrollView>
   );
 }

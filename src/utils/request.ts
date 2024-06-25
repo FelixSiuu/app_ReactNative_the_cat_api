@@ -39,11 +39,12 @@ export const request_unFav = ({ favourite_id }: { favourite_id: number }) => {
 // get fav list
 export const request_getFavList = (params: {
   sub_id: string;
-  limit: number;
+  limit?: number;
 }) => {
   return axios.get("https://api.thecatapi.com/v1/favourites", {
     params: {
-      ...params
+      ...params,
+      order: "DESC"
     }
   });
 };
@@ -72,7 +73,7 @@ export const request_getFilterImages = (params: {
   breed_id: string;
   category_ids: string;
   mime_types: string;
-  limit: number;
+  limit: string;
 }) => {
   return axios.get("https://api.thecatapi.com/v1/images/search", {
     params: {
