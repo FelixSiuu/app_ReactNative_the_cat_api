@@ -6,6 +6,7 @@ type MenuProps = {
   list: Array<{ name: string; id: string }>;
   type: string;
   onSelected: (id: string) => void;
+  currentId: string;
   className?: string;
 };
 
@@ -35,6 +36,7 @@ export default function OptionMenu(props: MenuProps) {
                 closeMenu();
               }}
               title={item.name}
+              disabled={item.id === props.currentId ? true : false}
             />
           );
         })}

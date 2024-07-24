@@ -10,18 +10,3 @@ export type BottomTabProps = BottomTabScreenProps<
   RootStackParamList,
   "BottomTab"
 >;
-
-export type BreedsStackParamList = {
-  Breeds: { breed_id: string };
-  BreedsList: { breed_id: string };
-};
-
-export type BreedsScreenProps = NativeStackScreenProps<
-  BreedsStackParamList,
-  "Breeds"
->;
-
-export type BreedsListScreenProps = NativeStackScreenProps<
-  BreedsStackParamList,
-  "BreedsList"
->;

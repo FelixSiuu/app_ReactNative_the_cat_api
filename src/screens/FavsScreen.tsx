@@ -26,17 +26,15 @@ export default function FavsScreen() {
 
   const getFavListRequest = useCallback(async () => {
     setLoading(true);
-
     try {
       const { data } = await request_getFavList({
         sub_id: "lovecatguy",
         limit: 100
       });
       setFavList(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
       setLoading(false);
+    } catch (error) {
+      console.log("request_getFavList API error", error);
     }
   }, []);
 
@@ -51,8 +49,7 @@ export default function FavsScreen() {
         setFavList(newList);
       }
     } catch (error) {
-      console.log(error);
-    } finally {
+      console.log("unFavImgRequest API error", error);
     }
   }, []);
 

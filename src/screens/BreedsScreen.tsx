@@ -1,37 +1,57 @@
 import { View, ScrollView } from "react-native";
-import { BreedsScreenProps } from "../types/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { request_getBreedInfo } from "../utils/request";
+import { request_getBreedInfo, request_getBreedsList } from "../utils/request";
 import { ActivityIndicator, Button, Card, Text } from "react-native-paper";
 import RatingList from "../components/RatingList";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import OptionMenu from "../components/OptionMenu";
 
-export default function BreedsScreen({ navigation, route }: BreedsScreenProps) {
+export default function BreedsScreen() {
   const insets = useSafeAreaInsets();
   const [loading, setLoading] = useState(true);
   const [imgUrl, setImgUrl] = useState("");
   const [breedInfo, setBreedInfo] = useState<{ [key: string]: any }>({});
-
-  const getBreedInfoRequest = useCallback(async () => {
-    setLoading(true);
-    setImgUrl("");
-
-    try {
-      const { data } = await request_getBreedInfo({
-        breed_id: route.params.breed_id
-      });
-      // console.log("get breed info:", data[0]);
-      setImgUrl(data[0].url);
-      setBreedInfo(data[0].breeds[0]);
-    } catch (error) {
-    } finally {
-      setLoading(false);
-    }
-  }, [route.params.breed_id]);
+  const [id, setId] = useState("");
+  const [breedList, setBreedList] = useState<
+    Array<{ name: string; id: string }>
+  >([{ name: "Abyssinian", id: "abys" }]);
 
   useEffect(() => {
-    getBreedInfoRequest();
-  }, [getBreedInfoRequest]);
+    (async () => {
+      setLoading(true);
+      try {
+        const { data } = await request_getBreedsList();
+        let list: Array<{ name: string; id: string }> = [];
+        data.forEach((item: { [key: string]: any }) => {
+          list.push({
+            name: item.name,
+            id: item.id
+          });
+        });
+        setBreedList(list);
+        setId(list[0].id);
+      } catch (error) {
+        console.log("request_getBreedsList API error", error);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      try {
+        const { data } = await request_getBreedInfo({
+          breed_id: id
+        });
+        if (data[0].breeds.length === 0) return;
+        setImgUrl(data[0].url);
+        setBreedInfo(data[0].breeds[0]);
+        setLoading(false);
+      } catch (error) {
+        console.log("request_getBreedInfo API error", error);
+      }
+    })();
+  }, [id]);
 
   return (
     <ScrollView>
@@ -43,17 +63,17 @@ export default function BreedsScreen({ navigation, route }: BreedsScreenProps) {
           paddingLeft: insets.left
         }}
         className="items-center justify-center gap-[30]">
-        <Button
-          mode="elevated"
-          icon={"arrow-right-drop-circle-outline"}
-          contentStyle={{ flexDirection: "row-reverse" }}
-          onPress={() =>
-            navigation.navigate("BreedsList", {
-              breed_id: route.params.breed_id
-            })
-          }>
-          selected: {breedInfo.name}
-        </Button>
+        <View className="w-[50%] flex-row">
+          <OptionMenu
+            list={breedList}
+            type="Breeds"
+            onSelected={selected => {
+              setId(selected);
+            }}
+            currentId={id}
+          />
+        </View>
+
         <Card className="w-[90%]">
           {loading ? (
             <View className="h-[300] items-center justify-center">

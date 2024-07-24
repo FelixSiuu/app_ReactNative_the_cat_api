@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import OptionMenu from "../components/OptionMenu";
 import { ActivityIndicator, Button, Card } from "react-native-paper";
+import ImgCard from "../components/ImgCard";
 
 type ListType = Array<{ name: string; id: string }>;
 
@@ -32,14 +33,12 @@ export default function ImagesScreen() {
 
   const getFilterImagesRequest = useCallback(async () => {
     setLoading(true);
-
     try {
       const { data } = await request_getFilterImages(params);
       setFilterList(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
       setLoading(false);
+    } catch (error) {
+      console.log("request_getFilterImages API error", error);
     }
   }, [params]);
 
@@ -60,8 +59,7 @@ export default function ImagesScreen() {
         });
         setBreedList(list);
       } catch (error) {
-        console.log(error);
-      } finally {
+        console.log("request_getBreedsList API error", error);
       }
     };
 
@@ -77,8 +75,7 @@ export default function ImagesScreen() {
         });
         setCateList(list);
       } catch (error) {
-        console.log(error);
-      } finally {
+        console.log("request_getCategoriesList API error", error);
       }
     };
 
@@ -106,6 +103,7 @@ export default function ImagesScreen() {
                 breed_id: val
               });
             }}
+            currentId={params.breed_id}
           />
           <OptionMenu
             list={cateList}
@@ -116,6 +114,7 @@ export default function ImagesScreen() {
                 category_ids: val
               });
             }}
+            currentId={params.category_ids}
           />
         </View>
 
@@ -132,10 +131,11 @@ export default function ImagesScreen() {
                 mime_types: val
               });
             }}
+            currentId={params.mime_types}
           />
           <OptionMenu
             list={[
-              { name: "6", id: "10" },
+              { name: "6", id: "6" },
               { name: "10", id: "10" },
               { name: "18", id: "18" },
               { name: "24", id: "24" }
@@ -147,6 +147,7 @@ export default function ImagesScreen() {
                 limit: val
               });
             }}
+            currentId={params.limit}
           />
         </View>
 
@@ -162,11 +163,9 @@ export default function ImagesScreen() {
           ) : (
             filterList.map(item => {
               return (
-                <Image
-                  key={item.id}
-                  source={{ uri: item.url }}
-                  className="h-[300] w-full"
-                />
+                <View key={item.id} className="mb-[20]">
+                  <ImgCard imgUrl={item.url} id={item.id} />
+                </View>
               );
             })
           )}
