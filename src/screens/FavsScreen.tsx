@@ -43,10 +43,7 @@ export default function FavsScreen() {
       const { data } = await request_unFav({ favourite_id: id });
       console.log("unfav img: ", data);
       if (data.message?.toUpperCase() === "SUCCESS") {
-        const newList = favList.filter(item => {
-          return item.id !== id;
-        });
-        setFavList(newList);
+        getFavListRequest();
       }
     } catch (error) {
       console.log("unFavImgRequest API error", error);
